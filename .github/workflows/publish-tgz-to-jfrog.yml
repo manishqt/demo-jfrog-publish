@@ -1,0 +1,38 @@
+name: Publish .tgz to JFrog Artifactory
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Locate .tgz file
+        id: find-tgz
+        run: |
+          TGZ_FILE=$(find . -name "*.tgz" | head -n 1)
+          if [ -z "$TGZ_FILE" ]; then
+            echo "No .tgz file found. Exiting."
+            exit 1
+          fi
+          echo "TGZ_FILE=$TGZ_FILE" >> $GITHUB_ENV
+
+      - name: Configure .npmrc for Artifactory
+        run: |
+          echo "registry=${{ secrets.JF_URL }}/api/npm/npm-repo/" > .npmrc
+          echo "//${{ secrets.JF_URL }}/api/npm/npm-repo/:_authToken=${{ secrets.JF_ACCESS_TOKEN }}" >> .npmrc
+          echo "always-auth=true" >> .npmrc
+
+      - name: Publish .tgz to Artifactory
+        run: npm publish $TGZ_FILE
