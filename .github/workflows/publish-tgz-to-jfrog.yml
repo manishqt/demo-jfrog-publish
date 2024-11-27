@@ -26,6 +26,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
+          registry-url: https://trial9ppsfa.jfrog.io/artifactory/api/npm/npm-repo/
 
       - name: Locate .tgz file
         id: find-tgz
