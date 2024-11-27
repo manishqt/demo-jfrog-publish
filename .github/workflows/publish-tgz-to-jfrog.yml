@@ -30,9 +30,9 @@ jobs:
 
       - name: Configure .npmrc for Artifactory
         run: |
-          echo "registry=${{ secrets.JF_URL }}/api/npm/npm-repo/" > .npmrc
-          echo "//${{ secrets.JF_URL }}/api/npm/npm-repo/:_authToken=${{ secrets.JF_ACCESS_TOKEN }}" >> .npmrc
-          echo "always-auth=true" >> .npmrc
+          echo "registry=https://trial9ppsfa.jfrog.io/artifactory/api/npm/npm-repo/" > ~/.npmrc
+          echo "//trial9ppsfa.jfrog.io/artifactory/api/npm/npm-repo/:_authToken=${{ secrets.JF_ACCESS_TOKEN }}" >> ~/.npmrc
+          echo "always-auth=true" >> ~/.npmrc
 
       - name: Publish .tgz to Artifactory
         run: npm publish $TGZ_FILE
