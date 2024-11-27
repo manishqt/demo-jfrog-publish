@@ -37,11 +37,11 @@ jobs:
           fi
           echo "TGZ_FILE=$TGZ_FILE" >> $GITHUB_ENV
 
-      - name: Configure .npmrc for Artifactory
-        run: |
-          echo "registry=https://trial9ppsfa.jfrog.io/artifactory/api/npm/npm-repo/" > ~/.npmrc
-          echo "//trial9ppsfa.jfrog.io/artifactory/api/npm/npm-repo/:_authToken=${{ secrets.JF_ACCESS_TOKEN }}" >> ~/.npmrc
-          echo "always-auth=true" >> ~/.npmrc
+    #   - name: Configure .npmrc for Artifactory
+    #     run: |
+    #       echo "registry=https://trial9ppsfa.jfrog.io/artifactory/api/npm/npm-repo/" > ~/.npmrc
+    #       echo "//trial9ppsfa.jfrog.io/artifactory/api/npm/npm-repo/:_authToken=${{ secrets.JF_ACCESS_TOKEN }}" >> ~/.npmrc
+    #       echo "always-auth=true" >> ~/.npmrc
 
       - name: Publish .tgz to Artifactory
         run: npm publish $TGZ_FILE
